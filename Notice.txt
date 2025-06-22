@@ -1,0 +1,21 @@
+Third-party components used in this repo:
+
+1. System.IO.Hashing (Microsoft)
+   License: MIT License
+   Source: https://www.nuget.org/packages/System.IO.Hashing/
+
+2. xunit
+   License: MIT License
+   Source: https://www.nuget.org/packages/xunit/
+
+3. xunit.runner.visualstudio
+   License: MIT License
+   Source: https://www.nuget.org/packages/xunit.runner.visualstudio/
+
+4. Verify.Xunit
+   License: MIT License
+   Source: https://www.nuget.org/packages/Verify.Xunit/
+
+5. Microsoft.NET.Test.Sdk
+   License: MIT License
+   Source: https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/

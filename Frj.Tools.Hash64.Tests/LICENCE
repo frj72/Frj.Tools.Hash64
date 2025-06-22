@@ -1,0 +1,9 @@
+This c# project is released into the public domain under The Unlicense.
+See http://unlicense.org/ for details.
+
+It uses the following third-party libraries under the MIT License:
+
+- xunit — https://www.nuget.org/packages/xunit/
+- xunit.runner.visualstudio — https://www.nuget.org/packages/xunit.runner.visualstudio/
+- Verify.Xunit — https://www.nuget.org/packages/Verify.Xunit/
+- Microsoft.NET.Test.Sdk — https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/

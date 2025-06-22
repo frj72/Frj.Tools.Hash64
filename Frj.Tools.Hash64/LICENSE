@@ -1,0 +1,7 @@
+This is free and unencumbered software released into the public domain under The Unlicense.
+See http://unlicense.org/ for details.
+
+Third-party components:
+
+- System.IO.Hashing by Microsoft — Licensed under the MIT License.
+  https://www.nuget.org/packages/System.IO.Hashing/
