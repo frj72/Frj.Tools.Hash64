@@ -80,9 +80,7 @@ public class Hash64
             Marshal.FreeHGlobal(ptr);
         }
     }
-
-        
-
+    
     public void Append(params object?[] objects)
     {
         foreach (var o in objects)
@@ -168,8 +166,7 @@ public class Hash64
                 case object[] oa:
                     Append(oa);
                     break;
-                    
-
+                
                 case null:
                     AppendNull();
                     break;
@@ -179,9 +176,5 @@ public class Hash64
             }
         }
     }
-    public ulong GetCurrentHashAsUInt64()
-    {
-        return _xxHash64.GetCurrentHashAsUInt64();
-    }
-        
+    public ulong GetCurrentHashAsUInt64() => _xxHash64.GetCurrentHashAsUInt64();
 }
