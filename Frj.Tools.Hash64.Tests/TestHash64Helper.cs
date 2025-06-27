@@ -141,5 +141,13 @@ public class TestHash64Helper
         hash64.Append(false);
         Assert.Equal(Hash64Helper.Hash(false), hash64.GetCurrentHashAsUInt64());
     }
+    
+    [Fact]
+    public async Task TestHashToLong()
+    {
+        var res = Hash64Helper.HashToLong("hello", "world");
+        await Verify(res);
+       
+    }
 
 }

@@ -177,4 +177,6 @@ public class Hash64
         }
     }
     public ulong GetCurrentHashAsUInt64() => _xxHash64.GetCurrentHashAsUInt64();
+
+    public long GetCurrentHashAsInt64() => BitConverter.ToInt64(_xxHash64.GetCurrentHash(), 0);
 }

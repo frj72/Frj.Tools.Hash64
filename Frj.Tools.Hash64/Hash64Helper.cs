@@ -11,6 +11,13 @@ public static class Hash64Helper
         return hash.GetCurrentHashAsUInt64();
     }
 
+    public static long HashToLong(params object?[] objects)
+    {
+        var hash = new Hash64();
+        hash.Append(objects);
+        return hash.GetCurrentHashAsInt64();
+    }
+
     public static ulong Hash<T>(T val) where T : struct
     {
         var hash = new Hash64();

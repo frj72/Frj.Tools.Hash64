@@ -229,4 +229,13 @@ public class TestHash64
         var res = hash64.GetCurrentHashAsUInt64();
         await Verify(res);
     }
+
+    [Fact]
+    public async Task TestHasAsInt64()
+    {
+        var hash64 = new Hash64();
+        hash64.Append("hello", "world");
+        var resAsLong = hash64.GetCurrentHashAsInt64();
+        await Verify(resAsLong);
+    }
 }
