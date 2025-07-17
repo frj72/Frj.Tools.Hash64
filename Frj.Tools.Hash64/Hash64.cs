@@ -176,6 +176,11 @@ public class Hash64
             }
         }
     }
+
+    public void Reset()
+    {
+        _xxHash64.Reset();
+    }
     public ulong GetCurrentHashAsUInt64() => _xxHash64.GetCurrentHashAsUInt64();
 
     public long GetCurrentHashAsInt64() => BitConverter.ToInt64(_xxHash64.GetCurrentHash(), 0);

@@ -238,4 +238,16 @@ public class TestHash64
         var resAsLong = hash64.GetCurrentHashAsInt64();
         await Verify(resAsLong);
     }
+
+    [Fact]
+    public void TestReset()
+    {
+        var hash64 = new Hash64();
+        hash64.Append("hello", "world");
+        var resAsLong = hash64.GetCurrentHashAsInt64();
+        hash64.Reset();
+        hash64.Append("hello", "world");
+        var secondResAsLong = hash64.GetCurrentHashAsInt64();
+        Assert.Equal(resAsLong, secondResAsLong);
+    }
 }
