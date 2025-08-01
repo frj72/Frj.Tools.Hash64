@@ -19,3 +19,7 @@ Third-party components used in this project:
 5. Microsoft.NET.Test.Sdk
    License: MIT License
    Source: https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/
+   
+6. CommunityToolkit.HighPerformance
+    License: MIT License
+    Source: https://www.nuget.org/packages/CommunityToolkit.HighPerformance/

@@ -3,3 +3,7 @@ Third-party components used in this project:
 1. System.IO.Hashing (Microsoft)
    License: MIT License
    Source: https://www.nuget.org/packages/System.IO.Hashing/
+
+2. CommunityToolkit.HighPerformance
+    License: MIT License
+    Source: https://www.nuget.org/packages/CommunityToolkit.HighPerformance/
