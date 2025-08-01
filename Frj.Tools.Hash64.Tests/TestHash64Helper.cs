@@ -150,4 +150,136 @@ public class TestHash64Helper
        
     }
 
+    [Fact]
+    public void TestCharVsObj()
+    {
+        var hash64 = new Hash64();
+        const char val = 'A';
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+
+    [Fact]
+    public void TestUintVsObj()
+    {
+        var hash64 = new Hash64();
+        const uint val = (uint)42;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    /*
+     * short
+       ulong
+       float
+       int
+       TimeSpan
+       ushort
+       guid
+       long
+       byte
+       double
+       decimal
+       sbyte
+     */
+    
+    [Fact]
+    public void TestShortVsObj()
+    {
+        var hash64 = new Hash64();
+        const short val = 42;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestUShortVsObj()
+    {
+        var hash64 = new Hash64();
+        const ushort val = 42;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestULongVsObj()
+    {
+        var hash64 = new Hash64();
+        const ulong val = 42;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestFloatVsObj()
+    {
+        var hash64 = new Hash64();
+        const float val = 42f;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestIntVsObj()
+    {
+        var hash64 = new Hash64();
+        int val = 42;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestLongVsObj()
+    {
+        var hash64 = new Hash64();
+        const long val = 42L;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestDecimalVsObj()
+    {
+        var hash64 = new Hash64();
+        const decimal val = 42m;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestByteVsObj()
+    {
+        var hash64 = new Hash64();
+        const byte val = 42;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestSByteVsObj()
+    {
+        var hash64 = new Hash64();
+        const sbyte val = 42;
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestTimeSpanVsObj()
+    {
+        var hash64 = new Hash64();
+        var val = new TimeSpan(1, 2, 3);
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+    
+    [Fact]
+    public void TestGuidVsObj()
+    {
+        var hash64 = new Hash64();
+        var val = Guid.Parse("00000000-0000-0000-0000-000000000000");
+        hash64.Append(val);
+        Assert.Equal(hash64.GetCurrentHashAsUInt64(), Hash64Helper.Hash(val));
+    }
+
 }

@@ -8,10 +8,11 @@
         <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/frj72/Frj.Tools.Hash64</PackageProjectUrl>
-        <Version>1.1.1</Version>
+        <Version>2.0.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.4.0" />
         <PackageReference Include="System.IO.Hashing" Version="9.0.7" />
         <None Include="README.md" Pack="true" PackagePath="" />
         <None Include="NOTICE.txt" Pack="true" PackagePath="" />

@@ -1,6 +1,8 @@
+using System.Buffers;
 using System.IO.Hashing;
 using System.Runtime.InteropServices;
 using System.Text;
+using CommunityToolkit.HighPerformance.Buffers;
 
 namespace Frj.Tools.Hash64;
 
@@ -11,29 +13,162 @@ public class Hash64
 
     private readonly XxHash64 _xxHash64 = new();
 
-    public void Append(bool? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+    public void Append(bool? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
 
-    public void Append(byte? value) => _xxHash64.Append(value is null ? NullBytes : [value.Value]);
+        Span<byte> buffer = stackalloc byte[1];
+        buffer[0] = value.Value ? (byte)1 : (byte)0;
+        _xxHash64.Append(buffer);
+    }
 
-    public void Append(sbyte? value) => _xxHash64.Append(value is null ? NullBytes : [(byte)value.Value]);
+    public void Append(byte? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
 
-    public void Append(char? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+        Span<byte> buffer = stackalloc byte[1];
+        buffer[0] = value.Value;
+        _xxHash64.Append(buffer);
+    }
 
-    public void Append(short? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+    public void Append(sbyte? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
 
-    public void Append(ushort? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+        Span<byte> buffer = stackalloc byte[1];
+        buffer[0] = (byte)value.Value;
+        _xxHash64.Append(buffer);
+    }
 
-    public void Append(int? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+    public void Append(char? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
 
-    public void Append(uint? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+        Span<byte> buffer = stackalloc byte[sizeof(char)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
 
-    public void Append(long? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+    public void Append(short? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
 
-    public void Append(ulong? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+        Span<byte> buffer = stackalloc byte[sizeof(short)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
 
-    public void Append(float? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+    public void Append(ushort? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
 
-    public void Append(double? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value));
+        Span<byte> buffer = stackalloc byte[sizeof(ushort)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
+
+    public void Append(int? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[sizeof(int)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
+
+    public void Append(uint? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[sizeof(uint)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
+
+    public void Append(long? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[sizeof(long)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
+
+    public void Append(ulong? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[sizeof(ulong)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
+
+    public void Append(float? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[sizeof(float)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
+
+    public void Append(double? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[sizeof(double)];
+        BitConverter.TryWriteBytes(buffer, value.Value);
+        _xxHash64.Append(buffer);
+    }
+
 
     public void Append(decimal? value)
     {
@@ -42,22 +177,101 @@ public class Hash64
             AppendNull();
             return;
         }
-        foreach (var bit in decimal.GetBits(value.Value)) 
-            _xxHash64.Append(BitConverter.GetBytes(bit));
+        using var decimalBuffer = MemoryOwner<byte>.Allocate(16);
+        var bits = decimal.GetBits(value.Value);
+        for (var i = 0; i < 4; i++)
+            BitConverter.TryWriteBytes(decimalBuffer.Span.Slice(i * 4, 4), bits[i]);
+        _xxHash64.Append(decimalBuffer.Span);
     }
-    public void Append(DateTime? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value.Ticks));
 
-    public void Append(string? value) => _xxHash64.Append(value is null ? NullBytes : Encoding.UTF8.GetBytes(value));
+    public void Append(DateTime? value) =>
+        _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value.Ticks));
 
-    public void Append(byte[]? value) => _xxHash64.Append(value ?? NullBytes);
+    public void Append(string? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
 
-    public void Append(Guid? value) => _xxHash64.Append(value is null ? NullBytes : value.Value.ToByteArray());
+        var maxByteCount = Encoding.UTF8.GetMaxByteCount(value.Length);
 
-    public void AppendNull() => _xxHash64.Append(NullBytes);
+        switch (maxByteCount)
+        {
+            case <= 1024:
+            {
+                Span<byte> buffer = stackalloc byte[maxByteCount];
+                var len = Encoding.UTF8.GetBytes(value.AsSpan(), buffer);
+                _xxHash64.Append(buffer[..len]);
+                break;
+            }
+            default:
+            {
+                using var owner = MemoryPool<byte>.Shared.Rent(maxByteCount);
+                var span = owner.Memory.Span;
+                var len = Encoding.UTF8.GetBytes(value.AsSpan(), span);
+                _xxHash64.Append(span[..len]);
+                break;
+            }
+        }
+    }
 
-    public void Append(DateTimeOffset? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value.Ticks));
+    public void Append(byte[]? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
 
-    public void Append(TimeSpan? value) => _xxHash64.Append(value is null ? NullBytes : BitConverter.GetBytes(value.Value.Ticks));
+        _xxHash64.Append(value);
+    }
+
+    public void Append(Guid? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[16];
+        value.Value.TryWriteBytes(buffer);
+        _xxHash64.Append(buffer);
+    }
+
+    public void AppendNull()
+    {
+        _xxHash64.Append(NullBytes);
+    }
+
+    public void Append(DateTimeOffset? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[sizeof(long)];
+        BitConverter.TryWriteBytes(buffer, value.Value.Ticks);
+        _xxHash64.Append(buffer);
+    }
+
+    public void Append(TimeSpan? value)
+    {
+        if (value is null)
+        {
+            AppendNull();
+            return;
+        }
+
+        Span<byte> buffer = stackalloc byte[sizeof(long)];
+        BitConverter.TryWriteBytes(buffer, value.Value.Ticks);
+        _xxHash64.Append(buffer);
+    }
+
 
     public void Append<T>(T? value) where T : struct
     {
@@ -66,21 +280,12 @@ public class Hash64
             AppendNull();
             return;
         }
-        var size = Marshal.SizeOf<T>();
-        var ptr = Marshal.AllocHGlobal(size);
-        try
-        {
-            Marshal.StructureToPtr(value, ptr, false);
-            var bytes = new byte[size];
-            Marshal.Copy(ptr, bytes, 0, size);
-            _xxHash64.Append(bytes);
-        }
-        finally
-        {
-            Marshal.FreeHGlobal(ptr);
-        }
+
+        var tVal = value.Value;
+        var buffer = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref tVal, 1));
+        _xxHash64.Append(buffer);
     }
-    
+
     public void Append(params object?[] objects)
     {
         foreach (var o in objects)
@@ -162,17 +367,18 @@ public class Hash64
                 case Guid g:
                     Append(g);
                     break;
-                    
+
                 case object[] oa:
                     Append(oa);
                     break;
-                
+
                 case null:
                     AppendNull();
                     break;
-                    
+
                 default:
-                    throw new NotSupportedException($"Type {o?.GetType().FullName} is not supported by {nameof(Hash64)}.");
+                    throw new NotSupportedException(
+                        $"Type {o?.GetType().FullName} is not supported by {nameof(Hash64)}.");
             }
         }
     }
@@ -181,6 +387,7 @@ public class Hash64
     {
         _xxHash64.Reset();
     }
+
     public ulong GetCurrentHashAsUInt64() => _xxHash64.GetCurrentHashAsUInt64();
 
     public long GetCurrentHashAsInt64() => BitConverter.ToInt64(_xxHash64.GetCurrentHash(), 0);

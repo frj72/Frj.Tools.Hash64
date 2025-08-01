@@ -32,11 +32,54 @@ public static class Hash64Helper
             case DateTimeOffset dto:
                 hash.Append(dto);
                 break;
+            case char c:
+                hash.Append(c);
+                break;
+            case uint ui:
+                hash.Append(ui);
+                break;
+            case short s:
+                hash.Append(s);
+                break;
+            case ulong ul:
+                hash.Append(ul);
+                break;
+            case float f:
+                hash.Append(f);
+                break;
+            case int i:
+                hash.Append(i);
+                break;
+            case TimeSpan ts:
+                hash.Append(ts);
+                break;
+            case ushort us:
+                hash.Append(us);
+                break;
+            case Guid g:
+                hash.Append(g);
+                break;
+            case long l:
+                hash.Append(l);
+                break;
+            case byte b:
+                hash.Append(b);
+                break;
+            case double d:
+                hash.Append(d);
+                break;
+            case decimal dc:
+                hash.Append(dc);
+                break;
+            case sbyte sb:
+                hash.Append(sb);
+                break;
             default:
                 hash.Append<T>(val);
                 break;
         }
         return hash.GetCurrentHashAsUInt64();
     }
+    
     
 }
